@@ -1,0 +1,40 @@
+# au prealable, vous devez executer l'instruction suivante
+# install.packages('randtoolbox')
+
+library(randtoolbox)
+source('generateurs.R')
+source('fonctions.R')
+
+sVN <- 2504
+sMT <- 2504
+graine <- sample.int(1000,1)
+Nsimu <- 1000
+Nrepet <- 1
+
+
+############################################################
+##  Section 2
+############################################################
+
+vn <- VonNeumann(Nsimu,Nrepet,sVN)
+mt <- MersenneTwister(Nsimu,Nrepet,sMT)
+rd<-RANDU(Nsimu,graine)
+sm<-StandardMinimal(Nsimu,graine)
+
+par(mfrow=c(1,2))
+hist(mt[,1],xlab='',main='Mersenne Twister')
+hist(vn[,1],xlab='',main='Von Neumann')
+hist(rd[,1],xlab='',main='RANDU')
+hist(sm[,1],xlab='',main='Standard Minimal')
+
+par(mfrow=c(1,2))
+#plot(mt[1:(Nsimu-1),1],mt[2:Nsimu,1],xlab='MT(i)', ylab='MT(i+1)', main='Mersenne Twister')
+#plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Von Neumann')
+#plot(rd[1:(Nsimu-1),1],rd[2:Nsimu,1],xlab='RD(i)', ylab='RD(i+1)', main='RANDU')
+#plot(sm[1:(Nsimu-1),1],sm[2:Nsimu,1],xlab='RD(i)', ylab='RD(i+1)', main='Standard Minimal')
+
+# Sequence de bits pour les tests
+(bit_mt <- binary(mt[2,1]))
+
+pvaleur<-Frequency(sm,31)
+pvaleur2<-Runs(rd,31)
