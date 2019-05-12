@@ -43,3 +43,12 @@ Runs <-function(x,nb)
   
   return(pvaleur)
 }
+
+Ordre <-function(x,TailleSeq){
+  vecteur<-vector("numeric", TailleSeq)
+  for(j in 1:TailleSeq){
+    vecteur[j]<-x[j,1]
+  }
+  pvaleur<-order.test(vecteur, d=4, echo=FALSE)$p.value
+  return(pvaleur)
+}

@@ -38,3 +38,4 @@ par(mfrow=c(1,2))
 
 pvaleur<-Frequency(sm,31)
 pvaleur2<-Runs(rd,31)
+

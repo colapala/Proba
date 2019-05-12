@@ -1,0 +1,159 @@
+---
+title: "TP de Probabilités"
+author: "Chanèle Jourdan, Corentin Laharotte, Jorje Terreu"
+date: "12/05/2019"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
+---
+
+
+
+  Ce Tp a pour but de créer des générateurs pseudo-aléatoires et de leur faire passer des tests statistiques afin de comparer la qualité des séquences produites.
+
+
+#Partie 1.
+
+```{r setup, include=FALSE}
+library(randtoolbox)
+source('generateurs.R')
+source('fonctions.R')
+
+sVN <- 2504
+sMT <- 2504
+graine <- sample.int(1000,1)
+Nsimu <- 1000
+Nrepet <- 1
+```
+
+##Question 1
+
+Les générateurs à congruence linéaire consiste à appliquer une transformation linéaire suivie d'une opération de congruence : 
+$S=U=\{0,...,m-1\}, S_{n}=f(S_ {n-1})=a*S_ {n-1}+b\\\mod \ m, X_{n}=g(S_{n})=S_{n}$
+
+Nous avons implémenté 2 générateurs à congruence linéaire:
+  *Un générateur à congruence linéaire RANDU où a=65539, b=0, $m=2^{31}$
+  *Un générateur à congruence linéaire Standard Minimal où a=16807, b=0,$m=2^{31}-1$
+
+##Question 2.1 Test Visuel
+
+Nous allons comparer ces générateurs pour une suite de 1000 valeurs. 
+
+```{r setup, include=FALSE}
+vn <- VonNeumann(Nsimu,Nrepet,sVN)
+mt <- MersenneTwister(Nsimu,Nrepet,sMT)
+rd<-RANDU(Nsimu,graine)
+sm<-StandardMinimal(Nsimu,graine)
+```
+```{r}
+par(mfrow=c(1,2))
+hist(mt[,1],xlab='',main='Mersenne Twister')
+hist(vn[,1],xlab='',main='Von Neumann')
+hist(rd[,1],xlab='',main='RANDU')
+hist(sm[,1],xlab='',main='Standard Minimal')
+```
+
+Nous pouvons remarquer que pour 1000 valeurs ...
+
+##Question 2.2
+
+Nous pouvons nous intéresser à la répartition des valeurs obtenues en fonction de la valeur précédente. 
+```{r}
+par(mfrow=c(1,2))
+par(mfrow=c(1,2))
+plot(mt[1:(Nsimu-1),1],mt[2:Nsimu,1],xlab='MT(i)', ylab='MT(i+1)', main='Mersenne Twister')
+plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Von Neumann')
+plot(rd[1:(Nsimu-1),1],rd[2:Nsimu,1],xlab='RD(i)', ylab='RD(i+1)', main='RANDU')
+plot(sm[1:(Nsimu-1),1],sm[2:Nsimu,1],xlab='RD(i)', ylab='RD(i+1)', main='Standard Minimal')
+```
+
+Nous pouvons voir que les valeurs obtenues sont réparties assez uniformément, il n'y a pas de réel lien entre la valeur obtenue et la valeur précédente.
+
+##Question 3 Test de fréquence monobit
+
+On s'intéresse au nombre de 0 et de 1 dans les bits d'une séquence entière. On teste si les nombres de 1 et de 0 d'une séquence sont approximativement les mêmes, comme attendu dans une séquence vraiment aléatoire.
+
+explications----
+
+les $p_{valeur}$ des différents algorithmes sont:
+
+Mersenne Twister | Von Neumann | RANDU | Standard Minimal
+
+results------- $p_{valeur}$=
+```{r}
+#pvaleurmtF<-Frequency(mt,32)
+#pvaleursmF<-Frequency(sm,31)
+#pvaleurvnF<-Frequency(vn,13)#ou 12? 
+#pvaleurrdF<-Frequency(rd,31)
+```
+
+interprétation: si la $p_{valeur}$ est inférieure à 0.01 alors la séquence n'est pas aléatoire. Sinon, on ne peut pas conclure.
+
+##Question 4 Test des runs
+
+On s'intéresse maintenant à la longueur des suites successives de 0 et de 1 dans la séquence observée. 
+
+explications----
+
+les $p_{valeur}$ des différents algorithmes sont:
+
+Mersenne Twister | Von Neumann | RANDU | Standard Minimal
+
+results------- $p_{valeur}$=
+```{r}
+#pvaleurmtR<-Runs(mt,32)
+#pvaleursmR<-Runs(sm,31)
+#pvaleurvnR<-Runs(vn,13)#ou 12? 
+#pvaleurrdR<-Runs(rd,31)
+```
+
+
+interprétation: si la $p_{valeur}$ est inférieure à 0.01 alors la séquence n'est pas aléatoire. Sinon, on ne peut pas conclure.
+
+##Question 5 Test d'ordre
+
+explications----
+
+les $p_{valeur}$ des différents algorithmes sont:
+
+Mersenne Twister | Von Neumann | RANDU | Standard Minimal
+
+results------- $p_{valeur}$=
+
+```{r}
+#pvaleurmtO<-Ordre(mt,32)
+#pvaleursmO<-Ordre(sm,31)
+#pvaleurvnO<-Ordre(vn,13)#ou 12? 
+#pvaleurrdO<-Ordre(rd,31)
+```
+
+
+interprétation: si la $p_{valeur}$ est inférieure à 0.01 alors la séquence n'est pas aléatoire. Sinon, on ne peut pas conclure.
+
+
+##Quelques plus pour la mise en forme
+
+Il est possible de mettre des mots *en italique* ou **en gras**.
+On peut également faire des listes :
+
+* Item 1 
+
+* Item 2 
+
+    + sub-item 1 
+
+    + sub-item 2 
+
+Et des tableaux :
+
+Permière colonne | Deuxième colonne 
+------------- | ------------- 
+a    | x        
+b        | y        
+
+Ou mettre des formules : $Aire = \pi\,r^{2}$.
+
+###Remarque
+Rmarkdown fait gagner du temps pour les compte-rendus et permet d'intégrer plus facilement des parties de code quand on le souhaite. Toutefois, je vous conseille d'avoir un fichier .R dans lequel vous ne mettez que du code et d'intégrer celui-ci dans le .Rmd lorsque vous obtenez des résultats. Faites les commentaires au fur et à mesure et n'attendez pas la dernière heure !

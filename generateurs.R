@@ -59,3 +59,4 @@ StandardMinimal <- function(k,graine)
   return (mat)
   
 }
+
