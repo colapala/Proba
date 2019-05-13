@@ -1,12 +1,11 @@
 ---
-title: "TP de Probabilités"
-author: "Chanèle Jourdan, Corentin Laharotte, Jorje Terreu"
+title: "TP de Probabilit�f©s"
+author: "Chan�f¨le Jourdan, Corentin Laharotte, Jorje Terreu"
 date: "12/05/2019"
 output:
   html_document:
     df_print: paged
   pdf_document: default
-  word_document: default
 ---
 
 
@@ -30,18 +29,18 @@ Nrepet <- 1
 
 ##Question 1
 
-Les générateurs à congruence linéaire consiste à appliquer une transformation linéaire suivie d'une opération de congruence : 
-$S=U=\{0,...,m-1\}, S_{n}=f(S_ {n-1})=a*S_ {n-1}+b\\\mod \ m, X_{n}=g(S_{n})=S_{n}$
+Les generateurs a congruence lineaire consiste a appliquer une transformation lineaire suivie d'une operation de congruence : 
+$S=U=\{0,...,m-1\}, S_{n}=f(S_ {n-1})=a*S_ {n-1}+b\mod \ m, X_{n}=g(S_{n})=S_{n}$
 
-Nous avons implémenté 2 générateurs à congruence linéaire:
-  *Un générateur à congruence linéaire RANDU où a=65539, b=0, $m=2^{31}$
-  *Un générateur à congruence linéaire Standard Minimal où a=16807, b=0,$m=2^{31}-1$
+Nous avons implemente 2 générateurs a congruence lineaire:
+  *Un generateur a congruence linéaire RANDU : a=65539, b=0, $m=2^{31}$
+  *Un generateur a congruence linéaire Standard Minimal : a=16807, b=0,$m=2^{31}-1$
 
 ##Question 2.1 Test Visuel
 
-Nous allons comparer ces générateurs pour une suite de 1000 valeurs. 
+Nous allons comparer ces generateurs pour une suite de 1000 valeurs. 
 
-```{r setup, include=FALSE}
+```{r, include=FALSE}
 vn <- VonNeumann(Nsimu,Nrepet,sVN)
 mt <- MersenneTwister(Nsimu,Nrepet,sMT)
 rd<-RANDU(Nsimu,graine)
@@ -59,9 +58,8 @@ Nous pouvons remarquer que pour 1000 valeurs ...
 
 ##Question 2.2
 
-Nous pouvons nous intéresser à la répartition des valeurs obtenues en fonction de la valeur précédente. 
+Nous pouvons nous interesser a la repartition des valeurs obtenues en fonction de la valeur precedente. 
 ```{r}
-par(mfrow=c(1,2))
 par(mfrow=c(1,2))
 plot(mt[1:(Nsimu-1),1],mt[2:Nsimu,1],xlab='MT(i)', ylab='MT(i+1)', main='Mersenne Twister')
 plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Von Neumann')
@@ -69,11 +67,11 @@ plot(rd[1:(Nsimu-1),1],rd[2:Nsimu,1],xlab='RD(i)', ylab='RD(i+1)', main='RANDU')
 plot(sm[1:(Nsimu-1),1],sm[2:Nsimu,1],xlab='RD(i)', ylab='RD(i+1)', main='Standard Minimal')
 ```
 
-Nous pouvons voir que les valeurs obtenues sont réparties assez uniformément, il n'y a pas de réel lien entre la valeur obtenue et la valeur précédente.
+Nous pouvons voir que les valeurs obtenues sont reparties assez uniformement, il n'y a pas de reel lien entre la valeur obtenue et la valeur precedente.
 
 ##Question 3 Test de fréquence monobit
 
-On s'intéresse au nombre de 0 et de 1 dans les bits d'une séquence entière. On teste si les nombres de 1 et de 0 d'une séquence sont approximativement les mêmes, comme attendu dans une séquence vraiment aléatoire.
+On s'interesse au nombre de 0 et de 1 dans les bits d'une sequence entiere. On teste si les nombres de 1 et de 0 d'une sequence sont approximativement les memes, comme attendu dans une sequence vraiment aleatoire.
 
 explications----
 
@@ -83,34 +81,42 @@ Mersenne Twister | Von Neumann | RANDU | Standard Minimal
 
 results------- $p_{valeur}$=
 ```{r}
-#pvaleurmtF<-Frequency(mt,32)
-#pvaleursmF<-Frequency(sm,31)
-#pvaleurvnF<-Frequency(vn,13)#ou 12? 
-#pvaleurrdF<-Frequency(rd,31)
+pvaleurmtF<-Frequency(mt,32)
+pvaleurmtF
+pvaleursmF<-Frequency(sm,31)
+pvaleursmF
+pvaleurvnF<-Frequency(vn,12)#ou 12? 
+pvaleurvnF
+pvaleurrdF<-Frequency(rd,31)
+pvaleurrdF
 ```
 
-interprétation: si la $p_{valeur}$ est inférieure à 0.01 alors la séquence n'est pas aléatoire. Sinon, on ne peut pas conclure.
+interprétation: si la $p_{valeur}$ est inferieure a 0.01 alors la sequence n'est pas aleatoire. Sinon, on ne peut pas conclure.
 
 ##Question 4 Test des runs
 
-On s'intéresse maintenant à la longueur des suites successives de 0 et de 1 dans la séquence observée. 
+On s'interesse maintenant a la longueur des suites successives de 0 et de 1 dans la sequence observee. 
 
 explications----
 
-les $p_{valeur}$ des différents algorithmes sont:
+les $p_{valeur}$ des differents algorithmes sont:
 
 Mersenne Twister | Von Neumann | RANDU | Standard Minimal
 
 results------- $p_{valeur}$=
 ```{r}
-#pvaleurmtR<-Runs(mt,32)
-#pvaleursmR<-Runs(sm,31)
-#pvaleurvnR<-Runs(vn,13)#ou 12? 
-#pvaleurrdR<-Runs(rd,31)
+pvaleurmtR<-Runs(mt,31)
+pvaleurmtR
+pvaleursmR<-Runs(sm,31)
+pvaleursmR
+pvaleurvnR<-Runs(vn,12)#ou 12?
+pvaleurvnR
+pvaleurrdR<-Runs(rd,31)
+pvaleurrdR
 ```
 
 
-interprétation: si la $p_{valeur}$ est inférieure à 0.01 alors la séquence n'est pas aléatoire. Sinon, on ne peut pas conclure.
+interpretation: si la $p_{valeur}$ est inferieure a 0.01 alors la sequence n'est pas aleatoire. Sinon, on ne peut pas conclure.
 
 ##Question 5 Test d'ordre
 
@@ -123,14 +129,18 @@ Mersenne Twister | Von Neumann | RANDU | Standard Minimal
 results------- $p_{valeur}$=
 
 ```{r}
-#pvaleurmtO<-Ordre(mt,32)
-#pvaleursmO<-Ordre(sm,31)
-#pvaleurvnO<-Ordre(vn,13)#ou 12? 
-#pvaleurrdO<-Ordre(rd,31)
+pvaleurmtO<-Ordre(mt,Nsimu)
+pvaleurmtO
+pvaleursmO<-Ordre(sm,Nsimu)
+pvaleursmO
+pvaleurvnO<-Ordre(vn,Nsimu)
+pvaleurvnO
+pvaleurrdO<-Ordre(rd,Nsimu)
+pvaleurrdO
 ```
 
 
-interprétation: si la $p_{valeur}$ est inférieure à 0.01 alors la séquence n'est pas aléatoire. Sinon, on ne peut pas conclure.
+interpretation: si la $p_{valeur}$ est inferieure a 0.01 alors la sequence n'est pas aleatoire. Sinon, on ne peut pas conclure.
 
 
 ##Quelques plus pour la mise en forme
