@@ -39,3 +39,8 @@ par(mfrow=c(1,2))
 pvaleur<-Frequency(sm,31)
 pvaleur2<-Runs(rd,31)
 
+vecteur<-vector("numeric", 1000)
+for(j in 1:1000){
+  vecteur[j]<-mt[j,1]
+}
+pvaleur3<-order.test(vecteur, d=4, echo=FALSE)$p.value
