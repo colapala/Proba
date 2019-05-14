@@ -1,6 +1,6 @@
 ---
-title: "TP de ProbabilitÃfÂ©s"
-author: "ChanÃfÂ¨le Jourdan, Corentin Laharotte, Jorje Terreu"
+title: "TP de Probabilités"
+author: "Chanèle Jourdan, Corentin Laharotte, Jorje Terreu"
 date: "12/05/2019"
 output:
   html_document:
@@ -9,11 +9,10 @@ output:
 ---
 
 
+  Ce Tp a pour but de créer des générateurs pseudo-aléatoires et de leur faire passer des tests statistiques afin de comparer la qualité des séquences produites.
 
-  Ce Tp a pour but de crÃ©er des gÃ©nÃ©rateurs pseudo-alÃ©atoires et de leur faire passer des tests statistiques afin de comparer la qualitÃ© des sÃ©quences produites.
 
-
-#Partie 1.
+#Partie 1 : Test de générateurs pseudo-aléatoires
 
 ```{r setup, include=FALSE}
 library(randtoolbox)
@@ -27,16 +26,16 @@ Nsimu <- 1000
 Nrepet <- 1
 ```
 
-##Question 1
+###Question 1:
 
 Les generateurs a congruence lineaire consiste a appliquer une transformation lineaire suivie d'une operation de congruence : 
 $S=U=\{0,...,m-1\}, S_{n}=f(S_ {n-1})=a*S_ {n-1}+b\mod \ m, X_{n}=g(S_{n})=S_{n}$
 
-Nous avons implemente 2 gÃ©nÃ©rateurs a congruence lineaire:
-  *Un generateur a congruence linÃ©aire RANDU : a=65539, b=0, $m=2^{31}$
-  *Un generateur a congruence linÃ©aire Standard Minimal : a=16807, b=0,$m=2^{31}-1$
+Nous avons implemente 2 générateurs a congruence lineaire:
+  *Un generateur a congruence linéaire RANDU : a=65539, b=0, $m=2^{31}$
+  *Un generateur a congruence linéaire Standard Minimal : a=16807, b=0,$m=2^{31}-1$
 
-##Question 2.1 Test Visuel
+###Question 2.1 Test Visuel:
 
 Nous allons comparer ces generateurs pour une suite de 1000 valeurs. 
 
@@ -56,7 +55,7 @@ hist(sm[,1],xlab='',main='Standard Minimal')
 
 Nous pouvons remarquer que pour 1000 valeurs ...
 
-##Question 2.2
+###Question 2.2:
 
 Nous pouvons nous interesser a la repartition des valeurs obtenues en fonction de la valeur precedente. 
 ```{r}
@@ -69,13 +68,13 @@ plot(sm[1:(Nsimu-1),1],sm[2:Nsimu,1],xlab='RD(i)', ylab='RD(i+1)', main='Standar
 
 Nous pouvons voir que les valeurs obtenues sont reparties assez uniformement, il n'y a pas de reel lien entre la valeur obtenue et la valeur precedente.
 
-##Question 3 Test de frÃ©quence monobit
+###Question 3 Test de fréquence monobit:
 
 On s'interesse au nombre de 0 et de 1 dans les bits d'une sequence entiere. On teste si les nombres de 1 et de 0 d'une sequence sont approximativement les memes, comme attendu dans une sequence vraiment aleatoire.
 
 explications----
 
-les $p_{valeur}$ des diffÃ©rents algorithmes sont:
+les $p_{valeur}$ des différents algorithmes sont:
 
 Mersenne Twister | Von Neumann | RANDU | Standard Minimal
 
@@ -91,9 +90,9 @@ pvaleurrdF<-Frequency(rd,31)
 pvaleurrdF
 ```
 
-interprÃ©tation: si la $p_{valeur}$ est inferieure a 0.01 alors la sequence n'est pas aleatoire. Sinon, on ne peut pas conclure.
+interprétation: si la $p_{valeur}$ est inferieure a 0.01 alors la sequence n'est pas aleatoire. Sinon, on ne peut pas conclure.
 
-##Question 4 Test des runs
+###Question 4 Test des runs:
 
 On s'interesse maintenant a la longueur des suites successives de 0 et de 1 dans la sequence observee. 
 
@@ -118,11 +117,11 @@ pvaleurrdR
 
 interpretation: si la $p_{valeur}$ est inferieure a 0.01 alors la sequence n'est pas aleatoire. Sinon, on ne peut pas conclure.
 
-##Question 5 Test d'ordre
+###Question 5 Test d'ordre:
 
 explications----
 
-les $p_{valeur}$ des diffÃ©rents algorithmes sont:
+les $p_{valeur}$ des différents algorithmes sont:
 
 Mersenne Twister | Von Neumann | RANDU | Standard Minimal
 
@@ -143,10 +142,68 @@ pvaleurrdO
 interpretation: si la $p_{valeur}$ est inferieure a 0.01 alors la sequence n'est pas aleatoire. Sinon, on ne peut pas conclure.
 
 
+#Partie 2 : Application aux files d'attentes
+
+
+##Files M/M/1
+
+###Question 6:
+
+
+```{r, include=FALSE}
+lambda<-0.1
+mu<-0.1
+D<-125
+
+result1<-FileMM1(lamba,mu,D)
+depart<-result1[[1]]
+arrivee<-result1[[2]]
+
+#affichage console pour débugger (à enlever)
+print("arrivee")
+for(i in 1:length(depart)){
+  print(depart[[i]])
+}
+
+print("depart")
+for(i in 1:length(depart)){
+  print(arrivee[[i]])
+}
+```
+
+
+###Question 7 et 8:
+
+```{r, include=FALSE}
+result2<-FileMM1Version2(arrivee,depart)
+temps<-result2[[1]]
+client<-result2[[2]]
+attenteMoyenne<-result2[[3]]
+nbClientMoyen<-result2[[4]]
+```
+
+###Application:
+```{r}
+#A faire
+```
+
+
+##Files M/M/n
+
+###Question bonus
+
+
+
+
+
+
+
+
+
 ##Quelques plus pour la mise en forme
 
 Il est possible de mettre des mots *en italique* ou **en gras**.
-On peut Ã©galement faire des listes :
+On peut également faire des listes :
 
 * Item 1 
 
@@ -158,7 +215,7 @@ On peut Ã©galement faire des listes :
 
 Et des tableaux :
 
-PermiÃ¨re colonne | DeuxiÃ¨me colonne 
+Permière colonne | Deuxième colonne 
 ------------- | ------------- 
 a    | x        
 b        | y        
@@ -166,4 +223,4 @@ b        | y
 Ou mettre des formules : $Aire = \pi\,r^{2}$.
 
 ###Remarque
-Rmarkdown fait gagner du temps pour les compte-rendus et permet d'intÃ©grer plus facilement des parties de code quand on le souhaite. Toutefois, je vous conseille d'avoir un fichier .R dans lequel vous ne mettez que du code et d'intÃ©grer celui-ci dans le .Rmd lorsque vous obtenez des rÃ©sultats. Faites les commentaires au fur et Ã  mesure et n'attendez pas la derniÃ¨re heure !
+
