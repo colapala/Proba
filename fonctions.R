@@ -53,7 +53,7 @@ Ordre <-function(x,TailleSeq){
   return(pvaleur)
 }
 
-FileMM1 <-function(lamb,mu,D){
+FileMM1 <-function(lambda,mu,D){
   
   arrivee<- list()
   depart<- list()
@@ -78,25 +78,34 @@ FileMM1 <-function(lamb,mu,D){
   print(taille)
   
   if(taille>0){
-    depart[[1]]<-arrivee[[1]]+rexp(1,lambda) #Initialise pour le 1e client
+    depart[[1]]<-arrivee[[1]]+rexp(1,mu) #Initialise pour le 1e client
   }
   
+  depasse<-1
   for(i in 2:taille){
     
-    print(i) #pour débugguer (a enlever)
+    if(depasse==1){
+    #print(i) #pour débugguer (a enlever)
     
     if(arrivee[[i]]>depart[[(i-1)]]){ #le client c-1 est déjà parti
       #met à jour le temps et le fixe pour le départ
       temps<-arrivee[[i]]+rexp(1,mu) 
       if(temps<D){
           depart[[i]]<-temps
+      }else{
+        depasse<-0
+        print(temps)
       }
     }else { #le client c-1 est toujours là : il faut attendre son départ
       #met à jour le temps et le fixe pour le départ
       temps=depart[[(i-1)]]+rexp(1,mu)
       if(temps<D){
           depart[[i]]<- temps
+      }else{
+        depasse<-0
+        print(temps)
       }
+    }
     }
   }
   
@@ -122,9 +131,9 @@ FileMM1Version2 <-function(arrivee,depart){
   #on parcourt les liste arrivee et depart en comparant les temps à chaque fois
   #pour savoir l'ordre chronologique des événements qui se sont produits
   
-  while(i<=Nbclients&&j<=Nbclients){#Tant qu'il y a encore des événements
+  while(i<=(length(depart)+1)&&j<=(Nbclients+1)&&n<=(Nbclients+length(depart)+1)){#Tant qu'il y a encore des événements
     
-    if(depart[[i]]>=arrivee[[j]]&&j<=Nbclients){ #Chronologiquement, il y a eu une arrivée
+    if(i==(length(depart)+1)){
       clients[[n]]<-clients[[n-1]]+1 #on ajoute un client
       temps[[n]]<-arrivee[[j]] #on met le temps à jour
       print("arrivee : ")
@@ -133,7 +142,7 @@ FileMM1Version2 <-function(arrivee,depart){
       print(clients[[n]])
       j<-j+1
       n<-n+1
-    } else if(depart[[i]]<arrivee[[j]]&&i<=Nbclients) { #Chronologiquement, il y a eu un départ
+    }else if(j==(Nbclients+1)){
       clients[[n]]<-clients[[n-1]]-1 #on enlève un client
       temps[[n]]<-depart[[i]] #on met le temps à jour
       print("depart : ")
@@ -142,45 +151,64 @@ FileMM1Version2 <-function(arrivee,depart){
       print(clients[[n]])
       i<-i+1
       n<-n+1
-      
+    }else{
+    
+    if(depart[[i]]>=arrivee[[j]]){ #Chronologiquement, il y a eu une arrivée
+        clients[[n]]<-clients[[n-1]]+1 #on ajoute un client
+        temps[[n]]<-arrivee[[j]] #on met le temps à jour
+        print("arrivee : ")
+        print(arrivee[[j]])
+        print(temps[[n]])
+        print(clients[[n]])
+        j<-j+1
+        n<-n+1
+    } else if(depart[[i]]<arrivee[[j]]) { #Chronologiquement, il y a eu un départ
+        clients[[n]]<-clients[[n-1]]-1 #on enlève un client
+        temps[[n]]<-depart[[i]] #on met le temps à jour
+        print("depart : ")
+        print(depart[[i]])
+        print(temps[[n]])
+        print(clients[[n]])
+        i<-i+1
+        n<-n+1
+    }
     }
   }
   
   #------------------------------------------------
   #Calcul de la moyenne du temps d'attente
-  
-  moyAtt = 0;
-  
+
+  moyAtt <- 0
+
   #fait la somme pour chaque client
-  for (i in 1:Nbclients)
+  for (i in 1:length(depart))
   {
-    moyAtt = moyAtt + depart[[i]] - arrivee[[i]];
+    moyAtt <- moyAtt + depart[[i]] - arrivee[[i]];
   }
+
+  #divise par le nombre de clients -> on enlève ceux qui ne sont pas encore partis
+  moyAtt <- moyAtt/length(depart)
+
+
+  ------------------------------------------------
+  # #Calcul nombre moyen de clients
+  # 
+  # taille<-length(clients)
+  # 
+  # nbMoyClients <- 0;
+  # 
+  # #fait la somme sur chaque intervalle de temps
+  # for (i in 1:(taille-1))
+  # {
+  #   nbMoyClients <- nbMoyClients + (clients[[i]] * (temps[[(i+1)]] - temps[[i]]))
+  # }
+  # #ajoute le dernier intervalle de temps + divise par D
+  # nbMoyClients <- (nbMoyClients + clients[[taille]] * (D - temps[[taille]]))/D
+  # 
+  # 
+  # #------------------------------------------------
   
-  #divise par le nombre de clients
-  moyAtt = moyAtt/Nbclients
-  
-  
-  #------------------------------------------------
-  #Calcul nombre moyen de clients
-  
-  taille=length(clients)
-  
-  nbMoyClients = 0;
-  
-  #fait la somme sur chaque intervalle de temps
-  for (i in 1:taille-1)
-  {
-    nbMoyClients = nbMoyClients + (nbMoyClients[[i]] * (temps[[(i+1)]] - temps[[i]]))
-  }
-  #ajoute le dernier intervalle de temps + divise par D
-  nbMoyClients = (nbMoyClients + nbMoyClients[[taille]] * (D - temps[[taille]]))/D
-  
-  
-  #------------------------------------------------
-  #return
-  
-  return(list(val1=temps, val2=clients, val2=moyAtt, val4=nbMoyClients))
+  return(list(val1=temps, val2=clients, val2=moyAtt))#, val4=nbMoyClients))
 }
 
 

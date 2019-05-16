@@ -1,6 +1,6 @@
 ---
-title: "TP de Probabilités"
-author: "Chanèle Jourdan, Corentin Laharotte, Jorje Terreu"
+title: "TP de Probabilit?s"
+author: "Chan?le Jourdan, Corentin Laharotte, Jorje Terreu"
 date: "12/05/2019"
 output:
   html_document:
@@ -9,10 +9,10 @@ output:
 ---
 
 
-  Ce Tp a pour but de créer des générateurs pseudo-aléatoires et de leur faire passer des tests statistiques afin de comparer la qualité des séquences produites.
+  Ce Tp a pour but de cr?er des g?n?rateurs pseudo-al?atoires et de leur faire passer des tests statistiques afin de comparer la qualit? des s?quences produites.
 
 
-#Partie 1 : Test de générateurs pseudo-aléatoires
+#Partie 1 : Test de g?n?rateurs pseudo-al?atoires
 
 ```{r setup, include=FALSE}
 library(randtoolbox)
@@ -31,9 +31,9 @@ Nrepet <- 1
 Les generateurs a congruence lineaire consiste a appliquer une transformation lineaire suivie d'une operation de congruence : 
 $S=U=\{0,...,m-1\}, S_{n}=f(S_ {n-1})=a*S_ {n-1}+b\mod \ m, X_{n}=g(S_{n})=S_{n}$
 
-Nous avons implemente 2 générateurs a congruence lineaire:
-  *Un generateur a congruence linéaire RANDU : a=65539, b=0, $m=2^{31}$
-  *Un generateur a congruence linéaire Standard Minimal : a=16807, b=0,$m=2^{31}-1$
+Nous avons implemente 2 g?n?rateurs a congruence lineaire:
+  *Un generateur a congruence lin?aire RANDU : a=65539, b=0, $m=2^{31}$
+  *Un generateur a congruence lin?aire Standard Minimal : a=16807, b=0,$m=2^{31}-1$
 
 ###Question 2.1 Test Visuel:
 
@@ -68,13 +68,13 @@ plot(sm[1:(Nsimu-1),1],sm[2:Nsimu,1],xlab='RD(i)', ylab='RD(i+1)', main='Standar
 
 Nous pouvons voir que les valeurs obtenues sont reparties assez uniformement, il n'y a pas de reel lien entre la valeur obtenue et la valeur precedente.
 
-###Question 3 Test de fréquence monobit:
+###Question 3 Test de fr?quence monobit:
 
 On s'interesse au nombre de 0 et de 1 dans les bits d'une sequence entiere. On teste si les nombres de 1 et de 0 d'une sequence sont approximativement les memes, comme attendu dans une sequence vraiment aleatoire.
 
 explications----
 
-les $p_{valeur}$ des différents algorithmes sont:
+les $p_{valeur}$ des diff?rents algorithmes sont:
 
 Mersenne Twister | Von Neumann | RANDU | Standard Minimal
 
@@ -90,7 +90,7 @@ pvaleurrdF<-Frequency(rd,31)
 pvaleurrdF
 ```
 
-interprétation: si la $p_{valeur}$ est inferieure a 0.01 alors la sequence n'est pas aleatoire. Sinon, on ne peut pas conclure.
+interpr?tation: si la $p_{valeur}$ est inferieure a 0.01 alors la sequence n'est pas aleatoire. Sinon, on ne peut pas conclure.
 
 ###Question 4 Test des runs:
 
@@ -121,7 +121,7 @@ interpretation: si la $p_{valeur}$ est inferieure a 0.01 alors la sequence n'est
 
 explications----
 
-les $p_{valeur}$ des différents algorithmes sont:
+les $p_{valeur}$ des diffÃ©rents algorithmes sont:
 
 Mersenne Twister | Von Neumann | RANDU | Standard Minimal
 
@@ -155,11 +155,11 @@ lambda<-0.1
 mu<-0.1
 D<-125
 
-result1<-FileMM1(lamba,mu,D)
+result1<-FileMM1(lambda,mu,D)
 depart<-result1[[1]]
 arrivee<-result1[[2]]
 
-#affichage console pour débugger (à enlever)
+#affichage console pour dÃ©bugger (Ã  enlever)
 print("arrivee")
 for(i in 1:length(depart)){
   print(depart[[i]])
@@ -179,7 +179,7 @@ result2<-FileMM1Version2(arrivee,depart)
 temps<-result2[[1]]
 client<-result2[[2]]
 attenteMoyenne<-result2[[3]]
-nbClientMoyen<-result2[[4]]
+#nbClientMoyen<-result2[[4]]
 ```
 
 ###Application:
@@ -203,7 +203,7 @@ nbClientMoyen<-result2[[4]]
 ##Quelques plus pour la mise en forme
 
 Il est possible de mettre des mots *en italique* ou **en gras**.
-On peut également faire des listes :
+On peut ?galement faire des listes :
 
 * Item 1 
 
@@ -215,7 +215,7 @@ On peut également faire des listes :
 
 Et des tableaux :
 
-Permière colonne | Deuxième colonne 
+Permi?re colonne | Deuxi?me colonne 
 ------------- | ------------- 
 a    | x        
 b        | y        
