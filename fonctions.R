@@ -178,37 +178,37 @@ FileMM1Version2 <-function(arrivee,depart){
   #------------------------------------------------
   #Calcul de la moyenne du temps d'attente
 
-  moyAtt <- 0
+  moyAtt<-0
 
   #fait la somme pour chaque client
   for (i in 1:length(depart))
   {
-    moyAtt <- moyAtt + depart[[i]] - arrivee[[i]];
+    moyAtt<-moyAtt + depart[[i]] - arrivee[[i]];
   }
 
   #divise par le nombre de clients -> on enlève ceux qui ne sont pas encore partis
-  moyAtt <- moyAtt/length(depart)
+  moyAtt<-moyAtt/length(depart)
 
 
-  ------------------------------------------------
-  # #Calcul nombre moyen de clients
-  # 
-  # taille<-length(clients)
-  # 
-  # nbMoyClients <- 0;
-  # 
-  # #fait la somme sur chaque intervalle de temps
-  # for (i in 1:(taille-1))
-  # {
-  #   nbMoyClients <- nbMoyClients + (clients[[i]] * (temps[[(i+1)]] - temps[[i]]))
-  # }
-  # #ajoute le dernier intervalle de temps + divise par D
-  # nbMoyClients <- (nbMoyClients + clients[[taille]] * (D - temps[[taille]]))/D
-  # 
-  # 
-  # #------------------------------------------------
+ # ------------------------------------------------
+   #Calcul nombre moyen de clients
   
-  return(list(val1=temps, val2=clients, val2=moyAtt))#, val4=nbMoyClients))
+   taille<-length(clients)
+  
+   nbMoyClients<-0
+  
+   #fait la somme sur chaque intervalle de temps
+   for (i in 1:(taille-1))
+   {
+     nbMoyClients<-nbMoyClients + (clients[[i]] * (temps[[(i+1)]] - temps[[i]]))
+   }
+   #ajoute le dernier intervalle de temps + divise par D
+   nbMoyClients<-(nbMoyClients + clients[[taille]] * (D - temps[[taille]]))/D
+  
+  
+   #------------------------------------------------
+  
+  return(list(val1=temps, val2=clients, val2=moyAtt, val4=nbMoyClients))
 }
 
 

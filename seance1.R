@@ -8,7 +8,7 @@ source('fonctions.R')
 sVN <- 2504
 sMT <- 2504
 graine <- sample.int(1000,1)
-Nsimu <- 1000
+Nsimu <- 10000
 Nrepet <- 1
 
 
@@ -36,7 +36,7 @@ par(mfrow=c(1,2))
 # Sequence de bits pour les tests
 (bit_mt <- binary(mt[2,1]))
 
-pvaleur<-Frequency(sm,31)
+pvaleur<-Frequency(vn,13)
 pvaleur2<-Runs(rd,31)
 
 vecteur<-vector("numeric", 1000)
