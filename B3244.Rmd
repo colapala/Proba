@@ -1,6 +1,6 @@
 ---
-title: "TP de Probabilit?s"
-author: "Chan?le Jourdan, Corentin Laharotte, Jorje Terreu"
+title: "TP de Probabilités"
+author: "Chanèle Jourdan, Corentin Laharotte, Jorge Terreu"
 date: "12/05/2019"
 output:
   html_document:
@@ -9,10 +9,10 @@ output:
 ---
 
 
-  Ce Tp a pour but de cr?er des g?n?rateurs pseudo-al?atoires et de leur faire passer des tests statistiques afin de comparer la qualit? des s?quences produites.
+  Ce Tp a pour but de créer des générateurs pseudo-aléatoires et de leur faire passer des tests statistiques afin de comparer la qualité des séquences produites.
 
 
-#Partie 1 : Test de g?n?rateurs pseudo-al?atoires
+#Partie 1 : Test de générateurs pseudo-aléatoires
 
 ```{r setup, include=FALSE}
 library(randtoolbox)
@@ -24,18 +24,21 @@ Nsimu <- 1000
 Nrepet <- 1
 ```
 
+
 ###Question 1:
 
-Les generateurs a congruence lineaire consiste a appliquer une transformation lineaire suivie d'une operation de congruence : 
+Les générateurs à congruence linéaire consiste à appliquer une transformation linéaire suivie d'une opération de congruence : 
 $S=U=\{0,...,m-1\}, S_{n}=f(S_ {n-1})=a*S_ {n-1}+b\mod \ m, X_{n}=g(S_{n})=S_{n}$
 
-Nous avons implemente 2 g?n?rateurs a congruence lineaire:
-  * Un generateur a congruence lin?aire RANDU : a=65539, b=0, $m=2^{31}$
-  * Un generateur a congruence lin?aire Standard Minimal : a=16807, b=0,$m=2^{31}-1$
+Nous avons implémenté 2 générateurs à congruence linéaire:
+
++ Un generateur à congruence linéaire RANDU : a=65539, b=0, $m=2^{31}$
++ Un generateur à congruence linéaire Standard Minimal : a=16807, b=0,$m=2^{31}-1$
+
 
 ###Question 2.1 Test Visuel:
 
-Nous allons comparer ces generateurs pour une suite de 1000 valeurs. Pour cela nous gÃ©nÃ©rons une graine alÃ©atoire avec un nombre compris entre 1000 et 1. 
+Nous allons comparer ces générateurs pour une suite de 1000 valeurs. Pour cela nous générons une graine aléatoire avec un nombre compris entre 1000 et 1. 
 
 ```{r, include=FALSE}
 vn <- VonNeumann(Nsimu,Nrepet,graine)
@@ -51,13 +54,14 @@ hist(rd[,1],xlab='',main='RANDU')
 hist(sm[,1],xlab='',main='Standard Minimal')
 ```
 
-  Nous pouvons remarquer que pour 1000 valeurs, les rÃ©partitions des rÃ©sultats obtenus grÃ¢ce aux gÃ©nÃ©rateurs Mersenne Twister, RANDU et Standard minimal sont globalement uniformes. MÃªme si les histogrammes obtenus ne sont pas lisses, les rÃ©partitions sont visuellement assez satisfaisantes pour Ãªtre considÃ©rÃ©es comme uniformes.
-En augmentant le nombre de valeurs gÃ©nÃ©rÃ©, les histogrammes obtenus tendent Ã  se lisser. 
-  Seul le gÃ©nÃ©rateur de Von Neumann n'est visuellemnt pas satisfaisant, en effet, la majoritÃ© des valeurs sont regroupÃ©es dans l'intervalle [0,2000]. La rÃ©partition ne semble donc pas uniforme. 
+  Nous pouvons remarquer que pour 1000 valeurs, les répartitions des résultats obtenus grâce aux générateurs Mersenne Twister, RANDU et Standard minimal sont globalement uniformes. Même si les histogrammes obtenus ne sont pas lisses, les répartitions sont visuellement assez satisfaisantes pour être considérées comme uniformes.
+En augmentant le nombre de valeurs générées, les histogrammes obtenus tendent à se lisser. 
+  Seul le générateur de Von Neumann n'est visuellement pas satisfaisant, en effet, la majorité des valeurs sont regroupées dans l'intervalle [0,2000]. La répartition ne semble donc pas uniforme. 
+
 
 ###Question 2.2:
 
-Nous pouvons nous interesser a la repartition des valeurs obtenues en fonction de la valeur precedente: 
+Nous pouvons nous intéresser à la répartition des valeurs obtenues en fonction de la valeur précédente: 
 ```{r}
 par(mfrow=c(1,2))
 plot(mt[1:(Nsimu-1),1],mt[2:Nsimu,1],xlab='MT(i)', ylab='MT(i+1)', main='Mersenne Twister')
@@ -66,18 +70,19 @@ plot(rd[1:(Nsimu-1),1],rd[2:Nsimu,1],xlab='RD(i)', ylab='RD(i+1)', main='RANDU')
 plot(sm[1:(Nsimu-1),1],sm[2:Nsimu,1],xlab='SM(i)', ylab='SM(i+1)', main='Standard Minimal')
 ```
 
- Nous pouvons voir que, sauf pour le gÃ©nÃ©rateur de Von Neumann, les valeurs obtenues sont reparties assez uniformement, il n'y a pas de reel lien entre la valeur obtenue et la valeur precedente. On ne peut pas prÃ©dire la valeur obtenue Ã  l'intant $t$ en connaissant la valeur obtenue Ã  l'instant $t-1$. 
+ Nous pouvons voir que, sauf pour le générateur de Von Neumann, les valeurs obtenues sont réparties assez uniformément, il n'y a pas de réel lien entre la valeur obtenue et la valeur précédente. On ne peut pas prédire la valeur obtenue à l'intant $t$ en connaissant la valeur obtenue à l'instant $t-1$. 
 
-###Question 3 Test de fr?quence monobit:
 
-On s'interesse au nombre de 0 et de 1 dans les bits d'une sequence entiere. On teste si les nombres de 1 et de 0 d'une sequence sont approximativement les memes, comme attendu dans une sequence vraiment aleatoire.
+###Question 3 Test de fréquence monobit:
 
-Pour cela, on attribut aux 1 de notre sÃ©quence de bits la valeur 1, et aux 0 la valeur -1. Puis nous sommons les valeurs des bits de notre sÃ©quence. Et nous divison s le tout par le nombre de bits Ã  considÃ©rer.
+On s'intéresse au nombre de 0 et de 1 dans les bits d'une séquence entière. On teste si les nombres de 1 et de 0 d'une séquence sont approximativement les mêmes, comme attendu dans une séquence vraiment aléatoire.
+
+Pour cela, on attribut aux 1 de notre séquence de bits la valeur 1, et aux 0 la valeur -1. Puis nous sommons les valeurs des bits de notre séquence. Et nous divisons le tout par le nombre de bits à considérer.
 On obtient donc :$S_{obs}=\frac{|S_n|}{\sqrt(n)}$
 
-Puis on regarde la valeur (appelÃ©e $p_{valeur}$) de la fonction de rÃ©partition de la loi $N(0,1)$ pour la valeur $S_{obs}$ obtenue. Si $p_{valeur}$ est petite, cela signifie qu'il est peu probable d'avoir obtenu la sÃ©quence gÃ©nÃ©rÃ©e, donc que la sÃ©quence n'est pas alÃ©atoire.
+Puis on regarde la valeur (appelée $p_{valeur}$) de la fonction de répartition de la loi $N(0,1)$ pour la valeur $S_{obs}$ obtenue. Si $p_{valeur}$ est petite, cela signifie qu'il est peu probable d'avoir obtenu la séquence générée, donc que la séquence n'est pas aléatoire.
 
-les $p_{valeur}$ des diff?rents gÃ©nÃ©rateurs sont:
+les $p_{valeur}$ des différents générateurs sont:
 
 ```{r, include=FALSE}
 pvaleurmtF<-Frequency(mt,32)
@@ -89,15 +94,16 @@ pvaleurrdF<-Frequency(rd,31)
 cat("Mersenne Twister | Von Neumann | RANDU | Standard Minimal\n",pvaleurmtF," | ",pvaleurvnF," | ",pvaleurrdF," | ",pvaleursmF)
 ```
  
-  Nous pouvons remarquer que la $p_{valeur}$ du gÃ©nÃ©rateur de Von Neumann est inferieure a 0.01, donc la sequence  obtenue n'est pas aleatoire. 
-  Pour les gÃ©nÃ©rateurs Mersenne Twister, RANDU et Standard Minimal, les $p_{valeur}$ obtenues sont supÃ©rieures Ã  0.01, nous ne pouvons donc rien conclure sur l'aspect alÃ©atoire de la sÃ©quence obtenue.
+  Nous pouvons remarquer que les $p_{valeur}$ des générateurs de Von Neumann et de RANDU sont inférieures à 0.01, donc les séquences  obtenues ne sont pas aléatoires.
+  Pour les générateurs Mersenne Twister, Standard Minimal, les $p_{valeur}$ obtenues sont supérieures à 0.01, nous ne pouvons donc rien conclure sur l'aspect aléatoire de la séquence obtenue.
+
 
 ###Question 4 Test des runs:
 
-On s'interesse maintenant a la longueur des suites successives de 0 et de 1 dans la sequence obtenue. 
-Avec un raisonnement assez similaire Ã  la question prÃ©cÃ©dente, on essaye de savoir s'il est probable d'obtenir une sÃ©quence avec cette mÃªme longueur de suites successives de 0 et de 1. Plus la $p_{valeur}$ obtenue est petite, moins il est probable d'obtenir la sÃ©quence observÃ©e, donc la sÃ©quence obtenue n'est pas alÃ©atoire.
+On s'intéresse maintenant à la longueur des suites successives de 0 et de 1 dans la séquence obtenue. 
+Avec un raisonnement assez similaire à la question précédente, on essaye de savoir s'il est probable d'obtenir une séquence avec cette même longueur de suites successives de 0 et de 1. Plus la $p_{valeur}$ obtenue est petite, moins il est probable d'obtenir la séquence observée, donc la séquence obtenue n'est pas aléatoire.
 
-les $p_{valeur}$ des differents algorithmes sont:
+les $p_{valeur}$ des différents générateurs sont:
 
 ```{r, include=FALSE}
 pvaleurmtR<-Runs(mt,31)
@@ -109,14 +115,16 @@ pvaleurrdR<-Runs(rd,31)
 cat("Mersenne Twister | Von Neumann | RANDU | Standard Minimal\n",pvaleurmtR," | ",pvaleurvnR," | ",pvaleurrdR," | ",pvaleursmR)
 ```
 
- Nous pouvons remarquer que les $p_{valeur}$ des gÃ©nÃ©rateurs de Von Neumann et de RANDU sont inferieures a 0.01, donc les sequences  obtenues ne sont pas aleatoires. 
-  Pour les gÃ©nÃ©rateurs Mersenne Twister et Standard Minimal, les $p_{valeur}$ obtenues sont supÃ©rieures Ã  0.01, nous ne pouvons donc rien conclure sur l'aspect alÃ©atoire de la sÃ©quence obtenue.
+ Nous pouvons remarquer que les $p_{valeur}$ des générateurs de Von Neumann et de RANDU sont inférieures à 0.01, donc les séquences  obtenues ne sont pas aléatoires. 
+  Pour les générateurs Mersenne Twister et Standard Minimal, les $p_{valeur}$ obtenues sont supérieures à 0.01, nous ne pouvons donc rien conclure sur l'aspect aléatoire de la séquence obtenue.
+
 
 ###Question 5 Test d'ordre:
-  On s'intÃ©resse maintenant Ã  la suite de nombres obtenus.on veut compter le nombre d'apparition d'un ordre de sÃ©quence donnÃ© (exemple : le nombre de fois oÃ¹ le premier nombre obtenu est infÃ©rieur au deuxiÃ¨me pour une sÃ©quence de 2 nombres (exemple simpliste)).
+
+  On s'intéresse maintenant à la suite de nombres obtenus. On veut compter le nombre d'apparition d'un ordre de séquence donné (exemple : le nombre de fois où le premier nombre obtenu est inférieur au deuxième pour une séquence de 2 nombres (exemple simpliste)).
 Ce test d'ordre retourne une $p_{valeur}$.
 
-les $p_{valeur}$ des diffÃ©rents algorithmes sont:
+les $p_{valeur}$ des différents générateurs sont:
 
 ```{r, include=FALSE}
 pvaleurmtO<-Ordre(mt,Nsimu)
@@ -128,28 +136,30 @@ pvaleurrdO<-Ordre(rd,Nsimu)
 cat("Mersenne Twister | Von Neumann | RANDU | Standard Minimal\n",pvaleurmtO," | ",pvaleurvnO," | ",pvaleurrdO," | ",pvaleursmO)
 ```
 
- Nous pouvons remarquer que la $p_{valeur}$ du gÃ©nÃ©rateur de Von Neumann est inferieure a 0.01, donc la sequence  obtenue n'est pas aleatoire.
-  Pour les gÃ©nÃ©rateurs Mersenne Twister, RANDU et Standard Minimal, les $p_{valeur}$ obtenues sont supÃ©rieures Ã  0.01, nous ne pouvons donc rien conclure sur l'aspect alÃ©atoire de la sÃ©quence obtenue.
+ Nous pouvons remarquer que la $p_{valeur}$ du générateur de Von Neumann est inférieure à 0.01, donc la séquence obtenue n'est pas aléatoire.
+  Pour les générateurs Mersenne Twister, RANDU et Standard Minimal, les $p_{valeur}$ obtenues sont supérieures à 0.01, nous ne pouvons donc rien conclure sur l'aspect aléatoire de la séquence obtenue.
 
 
-Nous pouvons remarquer que, suivant le Test choisi, les sÃ©quences de nombres rejetÃ©s ne sont pas issues des mÃªmes gÃ©nÃ©rateurs.Il est donc nÃ©cessaire de faire plusieurs tests diffÃ©rents pour "s'assurer" de l'aspect alÃ©atoire d'une sÃ©quence (en rÃ©alitÃ© on peut seulement s'assurer du non-rejet de la sÃ©quence, nous ne pouvons pas confirmer l'aspect alÃ©atoire de la sÃ©quence).
+Nous pouvons remarquer que, suivant le Test choisi, les séquences de nombres rejetées ne sont pas issues des mêmes générateurs. Il est donc nécessaire de faire plusieurs tests différents pour "s'assurer" de l'aspect aléatoire d'une séquence (en réalité on peut seulement s'assurer du non-rejet de la séquence, nous ne pouvons pas confirmer l'aspect aléatoire de la séquence).
+
 
 #Partie 2 : Application aux files d'attentes
 
- Nous souhaiterions rÃ©aliser des files d'attentes de Type FCFS(First Come First Served).
+ Nous souhaiterions réaliser une file d'attente de Type FCFS(First Come First Served).
 
 ##Files M/M/1
 
-  Pour un serveur particulier, il y a lambda arrivÃ©es et mu dÃ©parts par unitÃ©s de temps.
+  Pour un serveur particulier, il y a lambda arrivées et mu départs par unité de temps. Nous nous intéressons à l'état de cette file au bout d'un instant D.
 
 ###Question 6 et 7:
 
-  Nous aimerions connaÃ®tre l'Ã©volution de la file d'attente, c'est Ã  dire, savoir combien il y a de clients dans la file d'attente Ã  un instant donnÃ©.
+  Nous aimerions connaître l'évolution de la file d'attente, c'est à dire, savoir combien il y a de clients dans la file d'attente à un instant donné.
   
-  Pour ce premier exemple nous fixons les paramÃ¨tres: 
-  lambda=8
-  mu=15
-  D=12
+###Pour ce premier exemple nous fixons les paramètres:
+  
++ lambda=8
++ mu=15
++ D=12
   
 ```{r, include=FALSE}
 lambda<-8
@@ -166,13 +176,14 @@ client<-result2[[2]]
 
 ```
 ```{r}
-plot(unlist(temps),unlist(client),xlab='temps', ylab='nbClients En Attente', main='M/M/1')
+plot(unlist(temps),unlist(client),xlab='temps', ylab='nbClients En Attente', main='M/M/1',type='s')
 ```
 
- Pour cet exemple nous fixons les paramÃ¨tres: 
-  lambda=14
-  mu=15
-  D=12
+
+###Pour cet exemple nous fixons les paramètres: 
++ lambda=14
++ mu=15
++ D=12
   
 ```{r, include=FALSE}
 lambda<-14
@@ -189,13 +200,14 @@ client<-result2[[2]]
 
 ```
 ```{r}
-plot(unlist(temps),unlist(client),xlab='temps', ylab='nbClients En Attente', main='M/M/1')
+plot(unlist(temps),unlist(client),xlab='temps', ylab='nbClients En Attente', main='M/M/1',type='s')
 ```
 
- Pour cet exemple nous fixons les paramÃ¨tres: 
-  lambda=15
-  mu=15
-  D=12
+###Pour cet exemple nous fixons les paramètres: 
+ 
++ lambda=15
++ mu=15
++ D=12
   
 ```{r, include=FALSE}
 lambda<-15
@@ -212,13 +224,14 @@ client<-result2[[2]]
 
 ```
 ```{r}
-plot(unlist(temps),unlist(client),xlab='temps', ylab='nbClients En Attente', main='M/M/1')
+plot(unlist(temps),unlist(client),xlab='temps', ylab='nbClients En Attente', main='M/M/1',type='s')
 ```
 
- Pour cet exemple nous fixons les paramÃ¨tres: 
-  lambda=20
-  mu=15
-  D=12
+###Pour cet exemple nous fixons les paramètres: 
+  
++ lambda=20
++ mu=15
++ D=12
   
 ```{r, include=FALSE}
 lambda<-20
@@ -235,19 +248,20 @@ client<-result2[[2]]
 
 ```
 ```{r}
-plot(unlist(temps),unlist(client),xlab='temps', ylab='nbClients En Attente', main='M/M/1')
+plot(unlist(temps),unlist(client),xlab='temps', ylab='nbClients En Attente', main='M/M/1',type='s')
 ```
 
-  Nous pouvons remarquer que pour un mÃªme nombre de dÃ©part, plus le nombre d'arrivÃ©es par heures augmente, plus le rÃ©seau a tendance Ã  se saturer.
+  Nous pouvons remarquer que pour un même nombre de départ, plus le nombre d'arrivées par heures augmente, plus le réseau a tendance à se saturer. Lorque le rapport $\frac{lambda}{mu}$ est supérieur à 1, le réseau ne se stabile plus et sature.
 
 ###Question 8:
 
-On calcule dÃ©sormais le nombre moyen de clients dans le systÃ¨me et le temps de prÃ©sence d'un client dans le systÃ¨me aprÃ¨s 12 heures de fonctionnement.
+On calcule désormais le nombre moyen de clients dans le système et le temps de présence d'un client dans le système après 12 heures de fonctionnement (les temps d'attente sont affichés en heures).
 
-  Pour ce premier exemple nous fixons les paramÃ¨tres: 
-  lambda=8
-  mu=15
-  D=12
+###Pour ce premier exemple nous fixons les paramètres: 
+  
++ lambda=8
++ mu=15
++ D=12
   
 ```{r, include=FALSE}
 lambda<-8
@@ -261,18 +275,21 @@ arrivee<-result1[[2]]
 result2<-FileMM1Version2(arrivee,depart)
 attenteMoyenne<-result2[[3]]
 nbClientMoyen<-result2[[4]]
+formeLittle<-lambda*attenteMoyenne
 
 ```
 
 ```{r}
 cat("attente moyenne :",attenteMoyenne)
 cat("nombre moyen de clients :",nbClientMoyen)
+cat("nombre moyen de clients(calculé avec la forme de Little): ",formeLittle)
 ```
 
- Pour cet exemple nous fixons les paramÃ¨tres: 
-  lambda=14
-  mu=15
-  D=12
+###Pour cet exemple nous fixons les paramètres: 
+ 
++ lambda=14
++ mu=15
++ D=12
 
 ```{r, include=FALSE}
 lambda<-14
@@ -286,18 +303,21 @@ arrivee<-result1[[2]]
 result2<-FileMM1Version2(arrivee,depart)
 attenteMoyenne<-result2[[3]]
 nbClientMoyen<-result2[[4]]
+formeLittle<-lambda*attenteMoyenne
 
 ```
 
 ```{r}
 cat("attente moyenne :",attenteMoyenne)
 cat("nombre moyen de clients :",nbClientMoyen)
+cat("nombre moyen de clients(calculé avec la forme de Little): ",formeLittle)
 ```
 
- Pour cet exemple nous fixons les paramÃ¨tres: 
-  lambda=15
-  mu=15
-  D=12
+###Pour cet exemple nous fixons les paramètres: 
+
++ lambda=15
++ mu=15
++ D=12
 
 ```{r, include=FALSE}
 lambda<-15
@@ -311,18 +331,21 @@ arrivee<-result1[[2]]
 result2<-FileMM1Version2(arrivee,depart)
 attenteMoyenne<-result2[[3]]
 nbClientMoyen<-result2[[4]]
+formeLittle<-lambda*attenteMoyenne
 
 ```
 
 ```{r}
 cat("attente moyenne :",attenteMoyenne)
 cat("nombre moyen de clients :",nbClientMoyen)
+cat("nombre moyen de clients(calculé avec la forme de Little): ",formeLittle)
 ```
 
- Pour cet exemple nous fixons les paramÃ¨tres: 
-  lambda=20
-  mu=15
-  D=12
+###Pour cet exemple nous fixons les paramètres: 
+
++ lambda=20
++ mu=15
++ D=12
 
 ```{r, include=FALSE}
 lambda<-20
@@ -336,17 +359,20 @@ arrivee<-result1[[2]]
 result2<-FileMM1Version2(arrivee,depart)
 attenteMoyenne<-result2[[3]]
 nbClientMoyen<-result2[[4]]
+formeLittle<-lambda*attenteMoyenne
 
 ```
 
 ```{r}
 cat("attente moyenne :",attenteMoyenne)
 cat("nombre moyen de clients :",nbClientMoyen)
+cat("nombre moyen de clients(calculé avec la forme de Little): ",formeLittle)
 ```
 
-  Nous pouvons constater qu'Ã  partir du moment oÃ¹ il y a plus d'arrivÃ©e que de dÃ©part, le systÃ¨me tend Ã  se saturer.
+  Nous pouvons constater qu'à partir du moment où il y a plus d'arrivée que de départ, le système tend à se saturer.
+  On retrouve globallement la forme de Little : $E(N)=lambda*E(W)$
+  
+#Conclusion :
 
-##Files M/M/n
-
-###Question bonus
+ Ce TP nous a permis de comparer les générateurs de séquences pseudo-aléatoires à l'aide de tests statistiques. Nous avons remarqué que ce n'est pas parce qu'une séquence de nombres passe un test qu'elle est aléatoire. Et quand bien même la séquence passerait tous les tests statistiques, on ne pourrait pas affirmer que cette séquence est aléatoire (seulement que l'on n'a pas pu réfuter cette hypothèse). 
 

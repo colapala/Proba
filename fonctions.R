@@ -85,7 +85,6 @@ FileMM1 <-function(lambda,mu,D){
   for(i in 2:taille){
     
     if(depasse==1){
-    #print(i) #pour débugguer (a enlever)
     
     if(arrivee[[i]]>depart[[(i-1)]]){ #le client c-1 est déjà parti
       #met à jour le temps et le fixe pour le départ
@@ -94,7 +93,6 @@ FileMM1 <-function(lambda,mu,D){
           depart[[i]]<-temps
       }else{
         depasse<-0
-        print(temps)
       }
     }else { #le client c-1 est toujours là : il faut attendre son départ
       #met à jour le temps et le fixe pour le départ
@@ -103,7 +101,6 @@ FileMM1 <-function(lambda,mu,D){
           depart[[i]]<- temps
       }else{
         depasse<-0
-        print(temps)
       }
     }
     }
@@ -136,19 +133,11 @@ FileMM1Version2 <-function(arrivee,depart){
     if(i==(length(depart)+1)){
       clients[[n]]<-clients[[n-1]]+1 #on ajoute un client
       temps[[n]]<-arrivee[[j]] #on met le temps à jour
-      print("arrivee : ")
-      print(arrivee[[j]])
-      print(temps[[n]])
-      print(clients[[n]])
       j<-j+1
       n<-n+1
     }else if(j==(Nbclients+1)){
       clients[[n]]<-clients[[n-1]]-1 #on enlève un client
       temps[[n]]<-depart[[i]] #on met le temps à jour
-      print("depart : ")
-      print(depart[[i]])
-      print(temps[[n]])
-      print(clients[[n]])
       i<-i+1
       n<-n+1
     }else{
@@ -156,19 +145,11 @@ FileMM1Version2 <-function(arrivee,depart){
     if(depart[[i]]>=arrivee[[j]]){ #Chronologiquement, il y a eu une arrivée
         clients[[n]]<-clients[[n-1]]+1 #on ajoute un client
         temps[[n]]<-arrivee[[j]] #on met le temps à jour
-        print("arrivee : ")
-        print(arrivee[[j]])
-        print(temps[[n]])
-        print(clients[[n]])
         j<-j+1
         n<-n+1
     } else if(depart[[i]]<arrivee[[j]]) { #Chronologiquement, il y a eu un départ
         clients[[n]]<-clients[[n-1]]-1 #on enlève un client
         temps[[n]]<-depart[[i]] #on met le temps à jour
-        print("depart : ")
-        print(depart[[i]])
-        print(temps[[n]])
-        print(clients[[n]])
         i<-i+1
         n<-n+1
     }
